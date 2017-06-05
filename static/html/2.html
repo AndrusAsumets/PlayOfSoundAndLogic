@@ -1,0 +1,105 @@
+<html>
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	</head>
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.background {
+				position: fixed;
+                width: 100vw;
+                height: 100vh;
+                background-image: url('http://localhost:3000/image/Taevas.jpeg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+				z-index: -1;
+			}
+		</style>
+	<body>
+		<div class="background"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.js"></script>
+		<script>
+		
+			/*
+			var osc
+			var playing = false
+			*/
+			
+			var song, fft
+			/*
+			function preload() {
+				song = loadSound('http://localhost:3000/audio/Vangelis.mp3')
+			}
+			*/
+			
+			function setup() {
+				createCanvas(window.innerWidth, window.innerHeight)
+				noFill()
+   
+				mic = new p5.AudioIn()
+				mic.start()
+				fft = new p5.FFT()
+				fft.setInput(mic)
+			}
+			
+			function draw() {
+				var spectrum = fft.analyze()
+				
+				/*
+				beginShape()
+				for (i = 0; i < spectrum.length; i++) {
+					vertex(i, map(spectrum[i], 0, 255, height, 0) )
+				}
+				*/
+				
+				//background(242)
+				//noFill()
+				//clear()
+				smooth
+				strokeWeight(1)
+				var a = averageSpectrum(spectrum)
+
+				for(var i = 0; i < 3; i++) {
+					var alpha = 3
+					colors = [
+					    color(127, 113, 191, alpha),
+					    color(60, 0, 74, alpha),
+					    color(255, 0, 74, alpha),
+					]
+					stroke(colors[i])
+					beginShape()
+					
+					for(var w = -20; w < width + 20; w += 5) {
+						var h = height / 2
+						var s = splitSpectrum(spectrum, i)
+						
+						h += s * sin(w * 0.007 + s * 0.02+ i * TWO_PI/3 ) * pow(abs(sin(w*60+ s * 0.03)),2)
+						curveVertex(w, h)
+					}
+					endShape()
+				}
+			}
+			
+			function averageSpectrum(spectrum) {
+				var total = 0
+				for(var i = 0; i < spectrum.length; i++) {
+					total = total + spectrum[i]
+				}
+				
+				total = total / 64
+				return total
+			}
+			
+			function splitSpectrum(s, i) {
+				s = s.slice(i, (i + 1) * 1024 / 3)
+				
+				return averageSpectrum(s)
+			}
+		</script>
+	</body>
+</html>
