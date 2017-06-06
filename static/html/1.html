@@ -24,18 +24,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.js"></script>
 		<script>
-		
-			/*
-			var osc
-			var playing = false
-			*/
-			
 			var song, fft
-			/*
-			function preload() {
-				song = loadSound('http://localhost:3000/audio/Vangelis.mp3')
-			}
-			*/
 			
 			function setup() {
 				createCanvas(window.innerWidth, window.innerHeight)
@@ -50,16 +39,6 @@
 			function draw() {
 				var spectrum = fft.analyze()
 				
-				/*
-				beginShape()
-				for (i = 0; i < spectrum.length; i++) {
-					vertex(i, map(spectrum[i], 0, 255, height, 0) )
-				}
-				*/
-				
-				//background(242)
-				//noFill()
-				//clear()
 				smooth
 				strokeWeight(1)
 				var a = averageSpectrum(spectrum)

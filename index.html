@@ -13,9 +13,9 @@
 			}
 			
 			a {
-				margin: 2px;
-				width: 20vw;
-				height: 25vh;
+				margin: 16px;
+				width: calc(20vw - 32px);
+				height: calc(20vw - 32px);
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -23,8 +23,15 @@
 				text-decoration: inherit;
 				background-color: red;
 				border: 4p solid white;
+				transition: all 0.5s;
 			}
 			
+			a:hover {
+				margin: 4px;
+				width: calc(20vw - 8px);
+				height: calc(20vw - 8px);
+			}
+				
 			.content {
 				width: 100vw;
 				display: flex;
@@ -34,8 +41,8 @@
 		</style>
 	<body>
 		<div class="content">
-			<a href="../html/1.html">One</a>
-			<a href="../html/2.html">Two</a>
+			<a href="../html/1.html">001</a>
+			<a href="../html/2.html">002</a>
 		</div>
 	</body>
 </html>

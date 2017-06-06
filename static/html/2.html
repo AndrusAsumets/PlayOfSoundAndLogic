@@ -12,7 +12,7 @@
 				position: fixed;
                 width: 100vw;
                 height: 100vh;
-                background-image: url('http://localhost:3000/image/Taevas.jpeg');
+                background-image: url('http://localhost:3000/image/lewis1.jpg');
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center center;
@@ -24,42 +24,29 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.js"></script>
 		<script>
-		
-			/*
-			var osc
-			var playing = false
-			*/
-			
 			var song, fft
-			/*
 			function preload() {
-				song = loadSound('http://localhost:3000/audio/Vangelis.mp3')
+				song = loadSound('http://localhost:3000/audio/Mum - We Have A Map of the Piano.mp3')
 			}
-			*/
 			
 			function setup() {
 				createCanvas(window.innerWidth, window.innerHeight)
 				noFill()
+				
+				song.play()
+				
+				filter = new p5.LowPass()
    
-				mic = new p5.AudioIn()
-				mic.start()
+   
+   				song.disconnect()
+				song.connect(filter)
+
 				fft = new p5.FFT()
-				fft.setInput(mic)
 			}
 			
 			function draw() {
 				var spectrum = fft.analyze()
 				
-				/*
-				beginShape()
-				for (i = 0; i < spectrum.length; i++) {
-					vertex(i, map(spectrum[i], 0, 255, height, 0) )
-				}
-				*/
-				
-				//background(242)
-				//noFill()
-				//clear()
 				smooth
 				strokeWeight(1)
 				var a = averageSpectrum(spectrum)
