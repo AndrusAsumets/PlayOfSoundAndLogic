@@ -7,17 +7,20 @@ let router = require('koa-router')()
 var bodyParser = require('koa-bodyparser')
 var cors = require('koa-cors')
 var fs = require('fs')
-var url = require('url')
-var path = require('path')
-var forceSSL = require('koa-force-ssl')
-const querystring = require('querystring')
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 80
 
 router.get('/',
     async function(next) {
         console.log('../index.html')
         this.body = fs.readFileSync('../index.html', 'utf8')
+    }
+)
+
+router.post('/set_color',
+    async function(next) {
+        console.log('../index.html')
+        this.body = { success: true }
     }
 )
 
