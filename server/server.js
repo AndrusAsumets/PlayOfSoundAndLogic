@@ -8,7 +8,7 @@ var bodyParser = require('koa-bodyparser')
 var cors = require('koa-cors')
 var fs = require('fs')
 
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 3000
 
 router.get('/',
     async function(next) {
