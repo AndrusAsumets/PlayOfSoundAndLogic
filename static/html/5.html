@@ -15,7 +15,6 @@
                 width: 100vw;
                 height: 100vh;
                 background-color: black;
-                //background-image: url('http://localhost:3000/image/larm-rmah-286388.jpg');
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center center;
@@ -26,6 +25,10 @@
 				position: fixed;
 				width: 50vw;
 				height: 50vh;
+			}
+			
+			#defaultCanvas0 {
+				transform: rotate(0deg) scaleX(-1);
 			}
 			
 			#defaultCanvas1 {
@@ -41,12 +44,9 @@
 			#defaultCanvas3 {
 				left: 0;
 				top: 50vh;
+				transform: rotate(0deg) scaleX(-1);
 			}
 			
-			#defaultCanvas4 {
-				left: 0;
-				top: 0;
-			}
 		</style>
 	</head>
 
@@ -57,7 +57,7 @@
 		<script>
 			var spectrum = null
 			
-			var microphone = function(p, i) {
+			var audio = function(p, i) {
 				var song, fft
 				
 				p.preload = function() {
@@ -78,13 +78,13 @@
 			}
 				
 			var t = function(p) {
-				var xspacing = 64;    // Distance between each horizontal location
-				var w;                // Width of entire wave
-				var theta = 0.0;      // Start angle at 0
-				var amplitude = 75.0; // Height of wave
-				var period = 500.0;   // How many pixels before the wave repeats
-				var dx;               // Value for incrementing x
-				var yvalues;  // Using an array to store height values for the wave
+				var xspacing = 64    // Distance between each horizontal location
+				var w                // Width of entire wave
+				var theta = 0.0      // Start angle at 0
+				var amplitude = 75.0 // Height of wave
+				var period = 500.0   // How many pixels before the wave repeats
+				var dx               // Value for incrementing x
+				var yvalues  // Using an array to store height values for the wave
 				p.end = (new Date).getTime()
 				
 				p.setup = function(a, b) {
@@ -95,12 +95,6 @@
 					w = window.innerWidth
 					dx = (p.TWO_PI / period) * xspacing
 					yvalues = new Array(p.floor(w/xspacing))
-					
-					var id = p.canvas.id
-					if (id == 'defaultCanvas0' || id == 'defaultCanvas3') {
-						var element = document.getElementById(id)
-						element.style = 'transform: rotate(0deg) scaleX(-1)'
-					}
 				}
 				
 				p.draw = function() {
@@ -122,7 +116,6 @@
 				function calcWave() {
 					// Increment theta (try different values for
 					// 'angular velocity' here)
-					
 					// For every x value, calculate a y value with sine function
 					var x = theta
 					for (var i = 0; i < yvalues.length; i++) {
@@ -157,12 +150,10 @@
 				}
 			}
 			
-			var myMicrophone = new p5(microphone, 'microphone')
+			new p5(audio)
 			
 			for (i = 0; i < 4; i++) {
-				setTimeout(function() {
-					var myp5 = new p5(t, 'canvas' + i)
-				}, i)
+				new p5(t, 'canvas' + i)
 			}
 		</script>
 	</body>
