@@ -17,13 +17,6 @@ router.get('/',
     }
 )
 
-router.post('/set_color',
-    async function(next) {
-        console.log('../index.html')
-        this.body = { success: true }
-    }
-)
-
 app.use(bodyParser())
 app.use(cors())
 app.use(router.routes())
