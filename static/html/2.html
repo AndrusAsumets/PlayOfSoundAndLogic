@@ -33,15 +33,10 @@
 			function setup() {
 				createCanvas(window.innerWidth, window.innerHeight)
 				noFill()
-				
 				song.play()
-				
 				filter = new p5.LowPass()
-   
-   
    				song.disconnect()
 				song.connect(filter)
-
 				fft = new p5.FFT()
 			}
 			
@@ -57,7 +52,7 @@
 					colors = [
 					    color(127, 113, 191, alpha),
 					    color(60, 0, 74, alpha),
-					    color(255, 0, 74, alpha),
+					    color(255, 0, 74, alpha)
 					]
 					stroke(colors[i])
 					beginShape()

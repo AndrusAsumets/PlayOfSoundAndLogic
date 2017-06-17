@@ -1,0 +1,86 @@
+<html>
+	<head>
+		 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<style>
+			html, body {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.background {
+				position: fixed;
+                width: 100vw;
+                height: 100vh;
+                background-image: url('http://localhost:3000/image/joel-filipe-260016.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+				z-index: -1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="background"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.js"></script>
+		<script>
+			var song, fft
+			
+			function setup() {
+				createCanvas(window.innerWidth, window.innerHeight)
+				noFill()
+   
+				mic = new p5.AudioIn()
+				mic.start()
+				fft = new p5.FFT()
+				fft.setInput(mic)
+			}
+			
+			function draw() {
+				var spectrum = fft.analyze()
+				
+				//clear()
+				smooth()
+				strokeWeight(1)
+				var a = averageSpectrum(spectrum)
+
+				for(var i = 0; i < 3; i++) {
+					var alpha = 1
+					colors = [
+					    color(188, 204, 229, alpha),
+					    color(188, 204, 229, alpha),
+					    color(188, 204, 229, alpha)
+					]
+					stroke(colors[i])
+					beginShape()
+					
+					for(var w = 0; w < width; w += 183) {
+						var h = height / 2
+						var s = splitSpectrum(spectrum, i)
+						
+						h += 128 * sin(w + 128 + 0.02+ i * TWO_PI/2 ) * pow(abs(sin(w * s / 10000)),2)
+						curveVertex(w, h)
+					}
+					endShape()
+				}
+			}
+			
+			function averageSpectrum(spectrum) {
+				var total = 0
+				for(var i = 0; i < spectrum.length; i++) {
+					total = total + spectrum[i]
+				}
+				
+				total = total / 64
+				return total
+			}
+			
+			function splitSpectrum(s, i) {
+				s = s.slice(i, (i + 1) * 1024)
+				
+				return averageSpectrum(s)
+			}
+		</script>
+	</body>
+</html>
