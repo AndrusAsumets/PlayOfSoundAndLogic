@@ -24,7 +24,7 @@
 			.canvas {
 				position: fixed;
 				width: 50vw;
-				height: 50vh;
+				height: 100vh;
 			}
 			
 			#defaultCanvas0 {
@@ -38,17 +38,6 @@
 			#defaultCanvas2 {
 				left: 50vw;
 				top: 0;
-			}
-			
-			#defaultCanvas3 {
-				left: 50vw;
-				top: 50vh;
-			}
-			
-			#defaultCanvas4 {
-				left: 0;
-				top: 50vh;
-				transform: rotate(0deg) scaleX(-1);
 			}
 		</style>
 	</head>
@@ -83,10 +72,9 @@
 				var period = 500.0   // How many pixels before the wave repeats
 				var dx               // Value for incrementing x
 				var yvalues  // Using an array to store height values for the wave
-				p.end = (new Date).getTime()
 				
 				p.setup = function(a, b) {
-					var canvas = p.createCanvas(window.innerWidth / 2, window.innerHeight / 2)
+					var canvas = p.createCanvas(window.innerWidth / 2, window.innerHeight)
 					canvas.class('canvas')
 					
 					w = window.innerWidth
@@ -95,12 +83,6 @@
 				}
 				
 				p.draw = function() {
-					var start = (new Date).getTime()
-					if (start + 20000 > p.end) {
-						p.clear()
-						p.end = p.end + 15000
-					}
-					
 					xspacing = average(spectrum) / 10
 					theta += 0.02
 					
@@ -147,7 +129,7 @@
 			
 			new p5(audio)
 			
-			for (i = 0; i < 4; i++) {
+			for (i = 0; i < 2; i++) {
 				new p5(t, 'canvas' + i)
 			}
 		</script>
