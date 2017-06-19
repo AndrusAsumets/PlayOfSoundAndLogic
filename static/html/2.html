@@ -2,11 +2,15 @@
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 		<style>
+			* {
+				cursor: none;
+			}
+			
 			html, body {
 				margin: 0;
 				padding: 0;
 			}
-			
+
 			.background {
 				position: fixed;
                 width: 100vw;
@@ -19,7 +23,7 @@
 			}
 		</style>
 	</head>
-	
+
 	<body>
 		<div class="background"></div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.js"></script>
@@ -29,7 +33,7 @@
 			function preload() {
 				song = loadSound('http://localhost:3000/audio/Mum - We Have A Map of the Piano.mp3')
 			}
-			
+
 			function setup() {
 				createCanvas(window.innerWidth, window.innerHeight)
 				noFill()
@@ -39,10 +43,10 @@
 				song.connect(filter)
 				fft = new p5.FFT()
 			}
-			
+
 			function draw() {
 				var spectrum = fft.analyze()
-				
+
 				smooth
 				strokeWeight(1)
 				var a = averageSpectrum(spectrum)
@@ -56,31 +60,31 @@
 					]
 					stroke(colors[i])
 					beginShape()
-					
+
 					for(var w = -20; w < width + 20; w += 5) {
 						var h = height / 2
 						var s = splitSpectrum(spectrum, i)
-						
+
 						h += s * sin(w * 0.007 + s * 0.02+ i * TWO_PI/3 ) * pow(abs(sin(w*60+ s * 0.03)),2)
 						curveVertex(w, h)
 					}
 					endShape()
 				}
 			}
-			
+
 			function averageSpectrum(spectrum) {
 				var total = 0
 				for(var i = 0; i < spectrum.length; i++) {
 					total = total + spectrum[i]
 				}
-				
+
 				total = total / 64
 				return total
 			}
-			
+
 			function splitSpectrum(s, i) {
 				s = s.slice(i, (i + 1) * 1024 / 3)
-				
+
 				return averageSpectrum(s)
 			}
 		</script>

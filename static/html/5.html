@@ -2,6 +2,10 @@
 	<head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 		<style>
+			* {
+				cursor: none;
+			}
+			
 			html, body {
 				margin: 0;
 				padding: 0;
@@ -9,7 +13,7 @@
 				max-height: 100vh;
 				overflow: hidden;
 			}
-			
+
 			.background {
 				position: fixed;
                 width: 100vw;
@@ -20,17 +24,17 @@
                 background-position: center center;
 				z-index: -1;
 			}
-			
+
 			.canvas {
 				position: fixed;
 				width: 50vw;
 				height: 100vh;
 			}
-			
+
 			#defaultCanvas0 {
 				transform: rotate(0deg) scaleX(-1);
 			}
-			
+
 			#defaultCanvas1 {
 				left: 50vw;
 				top: 0;
@@ -44,14 +48,14 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.js"></script>
 		<script>
 			var spectrum = null
-			
+
 			var audio = function(p, i) {
 				var song, fft
-				
+
 				p.preload = function() {
 					song = p.loadSound('/audio/Roly Porter - Birth-uLjeJd4lr9A.mp3')
 				}
-				
+
 				p.setup = function() {
 					song.play()
 					filter = new p5.LowPass()
@@ -59,12 +63,12 @@
 					song.connect(filter)
 					fft = new p5.FFT()
 				}
-				
+
 				p.draw = function() {
 					spectrum = fft.analyze()
 				}
 			}
-				
+
 			var t = function(p) {
 				var xspacing = 64    // Distance between each horizontal location
 				var w                // Width of entire wave
@@ -74,33 +78,33 @@
 				var dx               // Value for incrementing x
 				var yvalues  // Using an array to store height values for the wave
 				p.end = (new Date).getTime()
-				
+
 				p.setup = function(a, b) {
 					var canvas = p.createCanvas(window.innerWidth / 2, window.innerHeight)
-					
+
 					canvas.class('canvas')
-					
+
 					w = window.innerWidth
 					dx = (p.TWO_PI / period) * xspacing
 					yvalues = new Array(p.floor(w/xspacing))
 				}
-				
+
 				p.draw = function() {
 					if (!spectrum) return
-					
+
 					var start = (new Date).getTime()
 					if (start + 20000 > p.end) {
 						p.clear()
 						p.end = p.end + 15000
 					}
-					
+
 					xspacing = average(spectrum) / 10
 					theta += 0.02
-					
+
 					calcWave()
 					renderWave(spectrum)
 				}
-	
+
 				function calcWave() {
 					// Increment theta (try different values for
 					// 'angular velocity' here)
@@ -111,36 +115,36 @@
 						x += dx
 					}
 				}
-				
+
 				function renderWave(spectrum) {
 					p.noStroke()
 					p.fill(p.color(255, 255, 255, 25))
-					
+
 					// A simple way to draw the wave with an ellipse at each location
 					for (var x = 0; x < yvalues.length; x++) {
 						p.ellipse(x * xspacing, p.height / 2 + yvalues[x], average(spectrum) / 25, average(spectrum) / 25)
 					}
 				}
-	
+
 				function average(spectrum) {
 					var total = 0
 					for(var i = 0; i < spectrum.length; i++) {
 						total = total + spectrum[i]
 					}
-					
+
 					total = total / 128
 					return total
 				}
-				
+
 				function splitSpectrum(s, i) {
 					s = s.slice(i, (i + 1) * 1024)
-					
+
 					return average(s)
 				}
 			}
-			
+
 			new p5(audio)
-			
+
 			for (i = 0; i < 2; i++) {
 				new p5(t, 'canvas' + i)
 			}
